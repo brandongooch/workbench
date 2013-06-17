@@ -15,18 +15,18 @@
 
 #include "hashtable.h"
 
-struct hashtable_t *
+struct hashtable_s *
 ht_create(size_t size, size_t (*hashfunc)(const char *))
 {
-	struct hashtable_t *ht;
+	struct hashtable_s *ht;
 
 	/* Allocate space for the hashtable */
-	ht = malloc(sizeof(struct hashtable_t));
+	ht = malloc(sizeof(struct hashtable_s));
 	if (ht == NULL)
 		return (NULL);
 
 	/* Allocate space for the hash buckets, which are linked lists */
-	ht->list = calloc(size, sizeof(struct hashentry_t *));
+	ht->list = calloc(size, sizeof(struct hashentry_s *));
 	if (ht->list == NULL) {
 		free(ht);
 		return (NULL);
@@ -51,10 +51,10 @@ ht_create(size_t size, size_t (*hashfunc)(const char *))
 }
 
 void
-ht_destroy(struct hashtable_t *ht)
+ht_destroy(struct hashtable_s *ht)
 {
 	size_t i;
-	struct hashentry_t *entry, *oldentry;
+	struct hashentry_s *entry, *oldentry;
 
 	/* Free each element in each bucket */
 	for (i = 0; i < (ht->size + 1); i++) {
@@ -76,9 +76,9 @@ ht_destroy(struct hashtable_t *ht)
 }
 
 int
-ht_insert(struct hashtable_t *ht, const char *key, void *data)
+ht_insert(struct hashtable_s *ht, const char *key, void *data)
 {
-	struct hashentry_t *entry;
+	struct hashentry_s *entry;
 	size_t hash;
 	size_t len;
 
@@ -106,7 +106,7 @@ ht_insert(struct hashtable_t *ht, const char *key, void *data)
 	}
 
 	/* No existing entry, so allocate space for a new one */
-	entry = malloc(sizeof(struct hashentry_t));
+	entry = malloc(sizeof(struct hashentry_s));
 	if (entry == NULL)
 		return (-1);
 
@@ -134,9 +134,9 @@ ht_insert(struct hashtable_t *ht, const char *key, void *data)
 }
 
 int
-ht_delete(struct hashtable_t *ht, const char *key)
+ht_delete(struct hashtable_s *ht, const char *key)
 {
-	struct hashentry_t *entry, *preventry = NULL;
+	struct hashentry_s *entry, *preventry = NULL;
 	size_t hash;
 	size_t len;
 
@@ -185,9 +185,9 @@ ht_delete(struct hashtable_t *ht, const char *key)
 }
 
 void *
-ht_getentry(struct hashtable_t *ht, const char *key)
+ht_getentry(struct hashtable_s *ht, const char *key)
 {
-	struct hashentry_t *entry;
+	struct hashentry_s *entry;
 	size_t hash;
 	size_t len;
 
@@ -205,17 +205,17 @@ ht_getentry(struct hashtable_t *ht, const char *key)
 }
 
 int
-ht_resize(struct hashtable_t *ht, size_t size)
+ht_resize(struct hashtable_s *ht, size_t size)
 {
-	struct hashtable_t htmp;
+	struct hashtable_s htmp;
 	size_t i;
-	struct hashentry_t *entry, *next;
+	struct hashentry_s *entry, *next;
 
 	htmp.size = size;
 	htmp.nentries = 0;
 	htmp.hashfunc = ht->hashfunc;
 
-	htmp.list = calloc(size, sizeof(struct hashentry_t*));
+	htmp.list = calloc(size, sizeof(struct hashentry_s*));
 	if (htmp.list == NULL)
 		return (-1);
 
@@ -237,7 +237,7 @@ ht_resize(struct hashtable_t *ht, size_t size)
 }
 
 void
-ht_setloadfactor(struct hashtable_t *ht)
+ht_setloadfactor(struct hashtable_s *ht)
 {
 	float lf;
 

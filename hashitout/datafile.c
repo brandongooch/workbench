@@ -7,7 +7,7 @@
 #include "datafile.h"
 
 int
-df_load(struct hashtable_t *ht, char *filename)
+df_load(struct hashtable_s *ht, char *filename)
 {
 	FILE *file;
 	char line[DFLINEBUFLEN];

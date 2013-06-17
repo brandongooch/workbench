@@ -12,4 +12,4 @@ struct simpledata {
 	char *text;
 };
 
-int df_load(struct hashtable_t *, char *);
+int df_load(struct hashtable_s *, char *);

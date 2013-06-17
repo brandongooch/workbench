@@ -20,13 +20,13 @@
 
 #define DEFAULT_DATFILE "example.dat"
 
-void print_hashtable(struct hashtable_t *);
-void free_hashdata(struct hashtable_t *);
+void print_hashtable(struct hashtable_s *);
+void free_hashdata(struct hashtable_s *);
 
 int
 main(int argc, char *argv[])
 {
-	struct hashtable_t *ht;
+	struct hashtable_s *ht;
 	size_t (*hashfunc)(const char *);
 	char *filename;
 	int hashalg;
@@ -160,10 +160,10 @@ main(int argc, char *argv[])
 }
 
 void
-print_hashtable(struct hashtable_t *ht)
+print_hashtable(struct hashtable_s *ht)
 {
 	size_t n;
-	struct hashentry_t *entry, *next;
+	struct hashentry_s *entry, *next;
 	struct simpledata *m;
 
 	printf("\n");
@@ -193,10 +193,10 @@ print_hashtable(struct hashtable_t *ht)
 }
 
 void
-free_hashdata(struct hashtable_t *ht)
+free_hashdata(struct hashtable_s *ht)
 {
 	size_t n;
-	struct hashentry_t *list, *oldlist;
+	struct hashentry_s *list, *oldlist;
 	struct simpledata *m;
 
 	for (n = 0; n < ht->size; ++n) {

@@ -8,25 +8,25 @@
  *   http://www.cs.cornell.edu/courses/cs312/2008sp/lectures/lec20.html
  */
 
-struct hashentry_t {
+struct hashentry_s {
 	char *key;
 	void *data;
-	struct hashentry_t *next;
+	struct hashentry_s *next;
 };
 
-struct hashtable_t {
+struct hashtable_s {
 	size_t size;
 	int nentries;
 	float loadfactor;
-	struct hashentry_t **list;
+	struct hashentry_s **list;
 	size_t (*hashfunc)(const char *);
 };
 
-struct hashtable_t *ht_create(size_t, size_t (*)(const char *));
-int	 ht_insert(struct hashtable_t *, const char *, void *);
-int	 ht_delete(struct hashtable_t *, const char *);
-int	 ht_resize(struct hashtable_t *, size_t);
-void	 ht_destroy(struct hashtable_t *);
-void	*ht_getentry(struct hashtable_t *, const char *);
-void	 ht_setloadfactor(struct hashtable_t *);
+struct hashtable_s *ht_create(size_t, size_t (*)(const char *));
+int	 ht_insert(struct hashtable_s *, const char *, void *);
+int	 ht_delete(struct hashtable_s *, const char *);
+int	 ht_resize(struct hashtable_s *, size_t);
+void	 ht_destroy(struct hashtable_s *);
+void	*ht_getentry(struct hashtable_s *, const char *);
+void	 ht_setloadfactor(struct hashtable_s *);
 size_t	 ht_defaulthash(const char *);
