@@ -13,7 +13,7 @@
 int
 main(void)
 {
-	struct goochbot *gbp = NULL;
+	goochbot_t *gbp = NULL;
 	uint64_t id = 777;
 	char *name = "brandon";
 

@@ -11,37 +11,31 @@
 
 const char *name_default = "default";
 
-struct goochbot *
+goochbot_t *
 goochbot_init(uint64_t id, char *name)
 {
-	struct goochbot *gbp = NULL;
+	goochbot_t *gbp = NULL;
 
-	/* Allocate memory for the robot */
-	if ((gbp = malloc(sizeof(struct goochbot))) == NULL)
+	if ((gbp = malloc(sizeof(goochbot_t))) == NULL)
 		errx(EX_OSERR, "malloc failed");
 
 	if ((gbp->name = malloc(sizeof(char) * NAMESIZE)) == NULL)
 		errx(EX_OSERR, "malloc failed");
 
-	/* Set the id */
 	goochbot_set_id(gbp, id);
-
-	/* Set the name */
 	goochbot_set_name(gbp, name);
 
 	return gbp;
 }
 
 int
-goochbot_destroy(struct goochbot *gbp)
+goochbot_destroy(goochbot_t *gbp)
 {
 	int error = 0;
 
-	/* Free the memory used by name */
 	if (gbp->name != NULL)
 		free(gbp->name);
 
-	/* Free the memory used by the goochbot object itself */
 	if (gbp != NULL)
 		free(gbp);
 
@@ -49,7 +43,7 @@ goochbot_destroy(struct goochbot *gbp)
 }
 
 int
-goochbot_set_id(struct goochbot *gbp, uint64_t id)
+goochbot_set_id(goochbot_t *gbp, uint64_t id)
 {
 	int error = 0;
 
@@ -64,7 +58,7 @@ goochbot_set_id(struct goochbot *gbp, uint64_t id)
 }
 
 int
-goochbot_set_name(struct goochbot *gbp, char *name)
+goochbot_set_name(goochbot_t *gbp, char *name)
 {
 	int error = 0;
 
