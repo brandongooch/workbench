@@ -156,7 +156,7 @@ main(int argc, char *argv[])
 	/* Free the memory allocated in main */
 	free(filename);
 
-	return 0;
+	exit(0);
 }
 
 void
