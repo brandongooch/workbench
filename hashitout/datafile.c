@@ -12,7 +12,7 @@ df_load(struct hashtable_s *ht, char *filename)
 	FILE *file;
 	char line[DFLINEBUFLEN];
 	char *key, *val;
-	int nlines, lineno;
+	size_t nlines, lineno;
 	struct simpledata *databuf;
 
 	/* Open the datafile, or return an error */
@@ -59,7 +59,7 @@ df_load(struct hashtable_s *ht, char *filename)
 		 */
 		if ((key == NULL) || (val == NULL)) {
 			fprintf(stderr,
-			    "error: could not parse datafile, line: %d\n",
+			    "error: could not parse datafile, line: %zu\n",
 			    lineno);
 			return (-1);
 		}

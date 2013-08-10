@@ -16,7 +16,7 @@ struct hashentry_s {
 
 struct hashtable_s {
 	size_t size;
-	int nentries;
+	size_t nentries;
 	float loadfactor;
 	struct hashentry_s **list;
 	size_t (*hashfunc)(const char *);

@@ -187,7 +187,7 @@ print_hashtable(struct hashtable_s *ht)
 	printf("\n");
 	printf("  STATS:\n");
 	printf("\n");
-	printf("    ht->nentries: %d\n", ht->nentries);
+	printf("    ht->nentries: %zu\n", ht->nentries);
 	printf("    ht->loadfactor: %f\n", ht->loadfactor);
 	printf("\n\n");
 }
