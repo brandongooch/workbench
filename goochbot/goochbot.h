@@ -5,9 +5,9 @@
 typedef struct goochbot {
 	uint64_t id;
 	char *name;
-} goochbot_t;
+} goochbot_s;
 
-goochbot_t *goochbot_init(uint64_t, char *);
+goochbot_s *goochbot_init(uint64_t, char *);
 int goochbot_destroy(struct goochbot *);
 int goochbot_set_id(struct goochbot *, uint64_t);
 int goochbot_set_name(struct goochbot *, char *);

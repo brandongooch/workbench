@@ -13,7 +13,7 @@
 int
 main(void)
 {
-	goochbot_t *gbp = NULL;
+	goochbot_s *gbp = NULL;
 	uint64_t id = 777;
 	char *name = "brandon";
 

@@ -11,12 +11,12 @@
 
 const char *name_default = "default";
 
-goochbot_t *
+goochbot_s *
 goochbot_init(uint64_t id, char *name)
 {
-	goochbot_t *gbp = NULL;
+	goochbot_s *gbp = NULL;
 
-	if ((gbp = malloc(sizeof(goochbot_t))) == NULL)
+	if ((gbp = malloc(sizeof(goochbot_s))) == NULL)
 		errx(EX_OSERR, "malloc failed");
 
 	if ((gbp->name = malloc(sizeof(char) * NAMESIZE)) == NULL)
@@ -29,7 +29,7 @@ goochbot_init(uint64_t id, char *name)
 }
 
 int
-goochbot_destroy(goochbot_t *gbp)
+goochbot_destroy(goochbot_s *gbp)
 {
 	int error = 0;
 
@@ -43,7 +43,7 @@ goochbot_destroy(goochbot_t *gbp)
 }
 
 int
-goochbot_set_id(goochbot_t *gbp, uint64_t id)
+goochbot_set_id(goochbot_s *gbp, uint64_t id)
 {
 	int error = 0;
 
@@ -58,7 +58,7 @@ goochbot_set_id(goochbot_t *gbp, uint64_t id)
 }
 
 int
-goochbot_set_name(goochbot_t *gbp, char *name)
+goochbot_set_name(goochbot_s *gbp, char *name)
 {
 	int error = 0;
 
