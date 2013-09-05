@@ -11,12 +11,13 @@
 #include "hashfunc.h"
 #include "datafile.h"
 
-#define DEBUG 1
-
-#define DPRINTF(fmt, ...) do {				\
-	if (DEBUG)					\
-		printf(fmt, __VA_ARGS__);		\
+#ifdef DEBUG
+#define DPRINTF(fmt, ...) do {						\
+	printf(fmt, __VA_ARGS__);					\
 } while (0)
+#else
+#define DPRINTF(fmt, ...) do { /* Nothing */ } while (0)
+#endif
 
 #define DEFAULT_DATFILE "example.dat"
 

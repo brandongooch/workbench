@@ -78,7 +78,7 @@
 #define SWAPINIT(a, es) {						\
 	swaptype = ((char *)a - (char *)0) % sizeof(long) ||		\
 	    es % sizeof(long) ? 2 : es == sizeof(long) ? 0 : 1;		\
-}									\
+}
 
 /*
  * If the elements are single long-sized objects, we can optimize,
@@ -95,7 +95,7 @@
 		simpleswap(long, a, b, size);				\
 	} else {							\
 		simpleswap(char, a, b, size);				\
-	}								\
+	}
 
 void
 bubblesort(void *base, size_t nmemb, size_t size,

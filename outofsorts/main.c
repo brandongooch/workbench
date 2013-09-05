@@ -8,17 +8,15 @@
 
 #include "allsorts.h"
 
-#define BUBBLE		'b'
-
-#define DEBUG 0
-
 #ifdef DEBUG
-#define DPRINTF(fmt, ...) do {			\
-	if (DEBUG)				\
-		printf(fmt, __VA_ARGS__);	\
+#define DPRINTF(fmt, ...) do {						\
+	printf(fmt, __VA_ARGS__);					\
 } while (0)
+#else
+#define DPRINTF(fmt, ...) do { /* Nothing */ } while (0)
 #endif
 
+#define BUBBLE		'b'
 #define NUMELEM 10
 
 int intlist[NUMELEM] = { 6, 3, 1, 5, 7, 0, 2, 9, 4, 8 };

@@ -1,4 +1,4 @@
-CFLAGS=	-g -Wall -Wextra -std=c99 -pedantic
+CFLAGS= -Wall -Wextra -std=c99 -pedantic
 PROG=	outofsorts
 SRCS=	main.c \
 	bubblesort.c
@@ -6,6 +6,10 @@ HDRS=	allsorts.h \
 	bubblesort.h
 OBJS=	main.o \
 	bubblesort.o \
+
+.ifdef DEBUG
+CFLAGS+= -g -DDEBUG
+.endif
 
 .PHONY: all clean
 
@@ -17,10 +21,10 @@ ${PROG}: ${OBJS}
 ${OBJS}: ${HDRS}
 
 main.o: main.c
-	${CC} ${CFLAGS} -o $@ -c $<
+	${CC} ${CPPFLAGS} ${CFLAGS} -o $@ -c $<
 
 bubblesort.o: bubblesort.c
-	${CC} ${CFLAGS} -o $@ -c $<
+	${CC} ${CPPFLAGS} ${CFLAGS} -o $@ -c $<
 
 clean:
 	rm -f ${PROG} ${OBJS} *.core
