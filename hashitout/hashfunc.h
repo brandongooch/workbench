@@ -6,6 +6,9 @@
  * implementation's "create" function.
  */
 
+#ifndef _HASHFUNC_H_
+#define _HASHFUNC_H_
+
 #define HASH_DEF	0
 #define HASH_PJW	1
 #define HASH_ELF	2
@@ -19,3 +22,5 @@ size_t	hashfunc_sdbm(const char *);
 size_t	hashfunc_djb2(const char *);
 size_t	hashfunc_xor(const char *);
 size_t	hashfunc_def(const char *);
+
+#endif /* !_HASHFUNC_H_ */

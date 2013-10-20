@@ -1,3 +1,6 @@
+#ifndef _RINGBUF_H_
+#define _RINGBUF_H_
+
 #define RINGSIZE 16
 
 struct ringbuf_s {
@@ -12,3 +15,5 @@ int		ringbuf_put(struct ringbuf_s *, uint32_t);
 uint32_t	ringbuf_get(struct ringbuf_s *);
 void		ringbuf_drain(struct ringbuf_s *);
 void		ringbuf_print(struct ringbuf_s *);
+
+#endif /* !_RINGBUF_H_ */
