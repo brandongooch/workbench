@@ -7,6 +7,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <libutil.h>
+#include <paths.h>
 #include <pthread.h>
 #include <pthread_np.h>
 #include <signal.h>
@@ -39,15 +40,11 @@ static void	 gd_shutdown();
 static int
 daemonize()
 {
+	int fd;
 	pid_t pid;
-	struct rlimit rl;
 
 	/* Clear file creation mask. */
 	umask(0);
-
-	/* Get maximum number of file descriptors. */
-	if (getrlimit(RLIMIT_NOFILE, &rl) < 0)
-		errx(EX_OSERR, "%s: cannot get rlimit", DAEMON_NAME);
 
 	/* Become a session leader to lose controlling TTY. */
 	if ((pid = fork()) < 0)
@@ -62,8 +59,10 @@ daemonize()
 	sa.sa_handler = SIG_IGN;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
+
 	if (sigaction(SIGHUP, &sa, NULL) < 0)
 		errx(EX_OSERR, "%s: cannot ignore SIGHUP", DAEMON_NAME);
+
 	if ((pid = fork()) < 0)
 		errx(EX_OSERR, "%s: cannot fork", DAEMON_NAME);
 	else if (pid != 0) /* parent */
@@ -76,39 +75,12 @@ daemonize()
 	if (chdir("/") < 0)
 		errx(EX_OSERR, "%s: can't change directory to /", DAEMON_NAME);
 
-#if 0
-	int i;
-	int fd0, fd1, fd2;
-
-	/*
-	 * Close all open file descriptors.
-	 */
-	if (rl.rlim_max == RLIM_INFINITY)
-		rl.rlim_max = 1024;
-	for (i = 0; i < rl.rlim_max; i++)
-		close(i);
-
-	/*
-	 * Attach file descriptors 0, 1, and 2 to /dev/null.
-	 */
-	fd0 = open("/dev/null", O_RDWR);
-	fd1 = dup(0);
-	fd2 = dup(0);
-
-	/*
-	 * Look for oddities or issues with file descriptors and exit if
-	 * we find anything unusual. I have no idea what else we need here.
-	 */
-	if (fd0 != 0 || fd1 != 1 || fd2 != 2) {
-		errx(EX_OSERR, "%s: unexpected file descriptors: %d %d %d",
-		    DAEMON_NAME, fd0, fd1, fd2);
+	/* Attach file descriptors STDIN, STDOUT, and STDERR to /dev/null */
+	if ((fd = open(_PATH_DEVNULL, O_RDWR)) != -1) {
+		dup2(fd, STDIN_FILENO);
+		dup2(fd, STDOUT_FILENO);
+		dup2(fd, STDERR_FILENO);
 	}
-#endif
-
-	/* Close STDIN, STDOUT, and STDERR */
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
-	close(STDERR_FILENO);
 
 	return 0;
 }
@@ -154,7 +126,7 @@ gd_sighandler(void *arg)
 		}
 
 		sigcnt++;
-		syslog(LOG_NOTICE, "gd_sighandler: signal count == %d", sigcnt);
+		syslog(LOG_NOTICE, "total signals received: %d", sigcnt);
 		sleep(2);
 	}
 }
@@ -164,6 +136,7 @@ main(int argc, char *argv[])
 {
 	int ch;
 	int error;
+	int loopcnt = 1;
 	pid_t otherpid;
 	pthread_t td;
 
@@ -205,15 +178,16 @@ main(int argc, char *argv[])
 			pidfile_write(pfh);
 	}
 
-        /*
-         * Restore SIGHUP default and block all signals.
-         */
+        /* Restore SIGHUP default and block all signals. */
         sa.sa_handler = SIG_DFL;
         sigemptyset(&sa.sa_mask);
         sa.sa_flags = 0;
+
         if (sigaction(SIGHUP, &sa, NULL) < 0)
                 errx(EX_OSERR, "can't restore SIGHUP default");
+
         sigfillset(&mask);
+
         if ((pthread_sigmask(SIG_BLOCK, &mask, NULL)) != 0)
                 errx(EX_OSERR, "SIG_BLOCK error");
 
@@ -223,13 +197,10 @@ main(int argc, char *argv[])
 	/* Set the thread name, mostly for debugging */
 	pthread_set_name_np(td, "gd_sighandler");
 
-	/* Main Loop
-	 * XXX  Need to turn the following into:
-	 * for (;;)
-	 */
-	for (int i = 0; i <= 30; i++) {
-		syslog(LOG_NOTICE, "main: %d", i);
-		sleep(3);
+	/* Main Loop */
+	for (;;) {
+		syslog(LOG_NOTICE, "main: %d", loopcnt++);
+		sleep(10);
 	}
 
 	if (pfh != NULL)
