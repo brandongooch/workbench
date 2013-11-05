@@ -55,7 +55,7 @@ daemonize()
 	/* Create the session and set process group ID */
 	setsid();
 
-	/* Ensure future opens will not allocate controlling TTYs. */
+	/* Ignore SIGHUP if thrown when the parent exits below */
 	sa.sa_handler = SIG_IGN;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
@@ -63,6 +63,7 @@ daemonize()
 	if (sigaction(SIGHUP, &sa, NULL) < 0)
 		errx(EX_OSERR, "%s: cannot ignore SIGHUP", DAEMON_NAME);
 
+	/* Ensure future opens will not allocate controlling TTYs. */
 	if ((pid = fork()) < 0)
 		errx(EX_OSERR, "%s: cannot fork", DAEMON_NAME);
 	else if (pid != 0) /* parent */
