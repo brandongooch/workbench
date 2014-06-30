@@ -21,21 +21,21 @@ main(void)
 	goochbot_set_id(gbp, 0);
 	goochbot_set_name(gbp, NULL);
 
-	printf("goochbot id: %lu\n", gbp->id);
+	printf("goochbot id: %llu\n", gbp->id);
 	printf("goochbot name: %s\n", gbp->name);
 
 	goochbot_destroy(gbp);
 	gbp = NULL;
 
 	gbp = goochbot_init(id, name);
-	printf("goochbot id: %lu\n", gbp->id);
+	printf("goochbot id: %llu\n", gbp->id);
 	printf("goochbot name: %s\n", gbp->name);
 
 	printf("\nmodifying goochbot configuration...\n\n");
 	goochbot_set_id(gbp, 999);
 	goochbot_set_name(gbp, "stephanie");
 
-	printf("goochbot id: %lu\n", gbp->id);
+	printf("goochbot id: %llu\n", gbp->id);
 	printf("goochbot name: %s\n", gbp->name);
 
 	goochbot_destroy(gbp);
