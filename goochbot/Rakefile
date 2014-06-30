@@ -1,0 +1,51 @@
+require 'rake/clean'
+
+CLEAN.include("*.o")
+CLOBBER.include("robotic")
+
+SRC = FileList["*.c"]
+
+def compileitdude(target, source)
+    sh "cc -g -Wall -Wextra -std=c99 -c -o #{target} #{source}"
+end
+
+def linkitup(target, objects=[])
+  sh "cc -o #{target} #{objects.join(' ')}"
+end
+
+SRC.each do |source|
+  target = source.ext(".o")
+  file target => source do
+    compileitdude target, source
+  end
+  file "robotic" => target
+end
+
+file "robotic" do |t|
+  linkitup t.name, t.prerequisites
+end
+
+task :default => "robotic"
+
+#############################################
+# A more "Makefile-ish" Technique:
+#############################################
+#
+# require 'rake/clean'
+# 
+# CLEAN.include(["*.o", "robotic"])
+# 
+# OBJS   = %W[main.o goochbot.o]
+# PROG   = "robotic"
+# CFLAGS = "-g -Wall -Wextra -std=c99"
+# 
+# rule ".o" => ".c" do |t|
+#   sh "cc #{CFLAGS} -o #{t.name} -c #{t.source}"
+# end
+# 
+# file PROG => OBJS do |t|
+#   sh "cc -o #{t.name} #{t.prerequisites.join(' ')}"
+# end
+# 
+# task :default => PROG
+# task :makeobj => OBJS
