@@ -57,7 +57,7 @@ ht_destroy(struct hashtable_s *ht)
 	struct hashentry_s *entry, *oldentry;
 
 	/* Free each element in each bucket */
-	for (i = 0; i < (ht->size + 1); i++) {
+	for (i = 0; i < ht->size; i++) {
 		entry = ht->list[i];
 		while (entry != NULL) {
 			if (entry->key != NULL)
@@ -219,7 +219,7 @@ ht_resize(struct hashtable_s *ht, size_t size)
 	if (htmp.list == NULL)
 		return (-1);
 
-	for (i = 0; i < (ht->size + 1); i++) {
+	for (i = 0; i < ht->size; i++) {
 		for (entry = ht->list[i]; entry; entry = next) {
 			next = entry->next;
 			ht_insert(&htmp, entry->key, entry->data);
@@ -251,7 +251,8 @@ ht_defaulthash(const char *key)
 	size_t hash;
 
 	hash = 0;
-	while(*key)
+
+	while (*key)
 		hash += (unsigned char)*key++;
 
 	return (hash);
