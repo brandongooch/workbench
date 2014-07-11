@@ -58,6 +58,8 @@ df_load(struct hashtable_s *ht, char *filename)
 		 * to the user and returning less than 0...
 		 */
 		if ((key == NULL) || (val == NULL)) {
+			free(databuf->text);
+			free(databuf);
 			fprintf(stderr,
 			    "error: could not parse datafile, line: %zu\n",
 			    lineno);

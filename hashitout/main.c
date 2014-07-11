@@ -197,7 +197,7 @@ void
 free_hashdata(struct hashtable_s *ht)
 {
 	size_t n;
-	struct hashentry_s *list, *oldlist;
+	struct hashentry_s *list;
 	struct simpledata *m;
 
 	for (n = 0; n < ht->size; ++n) {
@@ -207,9 +207,7 @@ free_hashdata(struct hashtable_s *ht)
 				m = (struct simpledata *)(list->data);
 				free(m->text);
 			}
-			oldlist = list;
 			list = list->next;
 		}
 	}
 }
-

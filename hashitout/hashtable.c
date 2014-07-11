@@ -257,4 +257,3 @@ ht_defaulthash(const char *key)
 
 	return (hash);
 }
-
