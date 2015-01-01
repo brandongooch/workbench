@@ -3,16 +3,23 @@
 
 #include <sys/types.h>
 
-#define NAMESIZE 256
+#define GOOCHBOT_NAME_MAXLEN		256
 
-typedef struct goochbot {
-	uint64_t id;
-	char *name;
-} goochbot_s;
+#define ERR_GB_ID			1
+#define ERR_GB_INIT			2
+#define ERR_GB_NULL			3
 
-goochbot_s *goochbot_init(uint64_t, char *);
-int goochbot_destroy(struct goochbot *);
-int goochbot_set_id(struct goochbot *, uint64_t);
-int goochbot_set_name(struct goochbot *, char *);
+typedef struct goochbot_s goochbot_t;
+typedef struct goochbot_too_s *goochbot_too_t;
+
+void		 goochbot_destroy(goochbot_t *);
+uint64_t	 goochbot_id_get(goochbot_t *);
+int		 goochbot_id_set(goochbot_t *, uint64_t);
+int		 goochbot_init(goochbot_t *, uint64_t, char *);
+char		*goochbot_name_get(goochbot_t *);
+int		 goochbot_name_set(goochbot_t *, char *);
+goochbot_t	*goochbot_new();
+
+uint64_t	 goochbot_too_id_set(goochbot_too_t, uint64_t);
 
 #endif /* !_GOOCHBOT_H_ */

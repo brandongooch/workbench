@@ -8,7 +8,7 @@ OBJS=	main.o \
 ${PROG}: ${OBJS}
 	${CC} ${LDFLAGS} ${OBJS} -o $@
 
-main.o: main.c goochbot.h
+main.o: main.c goochbot.h goochbot.o
 	${CC} ${CFLAGS} -c $< -o $@
 
 goochbot.o: goochbot.c goochbot.h
